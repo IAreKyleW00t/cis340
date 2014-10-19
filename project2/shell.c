@@ -31,7 +31,7 @@ void printHelp() {
     printf("    USAGE:    `showfat`\n");
     printf("  showsector:\n");
     printf("    DESC:     Show the contents of a specified sector.\n");
-    printf("    USAGE:    `showsector [number]`\n");
+    printf("    USAGE:    `showsector <number>`\n");
     printf("  showfile:\n");
     printf("    DESC:     Show the contents of a file.\n");
     printf("    USAGE:    `showfile <file>`\n");
