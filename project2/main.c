@@ -89,8 +89,10 @@ int main(int argc, char *argv[]) {
                 printf("    `%s` is already mounted.\n", getFile());
                 continue;
             }
-
-            mount(cmd_argv[1]);
+			if (access(cmd_argv[1], F_OK) != -1)
+				mount(cmd_argv[1]);
+			else
+				printf("	`%s` does not exist. Please use a valid filename.\n", cmd_argv[1]);
         } else if (strcmp(cmd_argv[0], "fumount") == 0) {
             if (!isMounted()) {
                 printf("    ERROR: No floppy mounted.\n");
