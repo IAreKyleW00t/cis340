@@ -24,7 +24,7 @@ void printHelp() {
     printf("    DESC:     Lists the structure of the floppy disk.\n");
     printf("    USAGE:    `structure [-l]`\n");
     printf("  traverse:\n");
-    printf("    DESC:     Lists teh contents of the root directory.\n");
+    printf("    DESC:     Lists the contents of the root directory.\n");
     printf("    USGE:     `traverse [-l]`\n");
     printf("  showfat:\n");
     printf("    DESC:     Show the content of the FAT tables.\n");
