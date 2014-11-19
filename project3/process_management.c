@@ -24,23 +24,22 @@
 */
 static char* copy_scanned_argument(char** pointer, char* end_of_cmd) {
 	char* scanner = *pointer;
-	
 	//Skip spaces
 	while (*scanner == ' ' && scanner < end_of_cmd)
 		scanner++;
-					
+
 	if (scanner == end_of_cmd) {
 		*pointer = scanner;
 		//No arguments supplied
 		return NULL;
 	} else {
-		//Parse arguments 
+		//Parse arguments
 		char* arg_start = scanner;
-		
+
 		//Skip spaces
 		while (*scanner != ' '&&scanner<end_of_cmd)
 			scanner++;
-						
+
 		char* arg_end = scanner;
 		*pointer = scanner;
 		int argsize = arg_end - arg_start;
@@ -63,7 +62,7 @@ command* new_command(char* cmdstr) {
 	cmd->input_file = NULL;
 	cmd->argc = 0;
 	char* first_space = strchr(cmdstr, ' ');
-	
+
 	if (first_space == NULL){ //No arguments
 		cmd->name = copy_of_str(cmdstr);
 		cmd->argv = (char**)malloc(sizeof(char*) * 2);
@@ -81,7 +80,7 @@ command* new_command(char* cmdstr) {
 		cmd->argc = 1;
 		char* scanner = first_space;
 		char* end_of_cmd = cmdstr + strlen(cmdstr);
-		
+
 		//Scan for information
 		while (*(++scanner) && scanner<end_of_cmd) {
 			if (*scanner == '>') {
@@ -92,13 +91,13 @@ command* new_command(char* cmdstr) {
 				cmd->input_file = copy_scanned_argument(&scanner, end_of_cmd);
 			} else {
 				char* narg = copy_scanned_argument(&scanner, end_of_cmd);
-				
+
 				if (narg != NULL){
 					char** newargv = (char**)malloc(sizeof(char*) * (cmd->argc + 2));
 					memcpy(newargv, cmd->argv, sizeof(char*) * (cmd->argc));
 					newargv[cmd->argc++] = narg;
 					newargv[cmd->argc] = NULL;
-					
+
 					if (cmd->argv){
 						free(cmd->argv);
 					}
@@ -139,29 +138,29 @@ process* new_process(char* procstr) {
 	ptr->commands = NULL;
 	char* scanner = procstr;
 	char* end = procstr + strlen(procstr);
-	
+
 	//Scan for information
 	while (scanner < end) {
-		while (*scanner == ' '){
+		while (*scanner == ' ') {
 			scanner++;
-		}
-		
+        }
+
 		char* end_of_cmd = strchr(scanner, '|'); //Search for pipes '|'
-		
+
 		if (end_of_cmd == NULL){
 			end_of_cmd = end;
 		}
-		
+
 		char* cmd = strncpy((char*)malloc(end_of_cmd - scanner + 1), scanner, end_of_cmd - scanner);
 		cmd[end_of_cmd - scanner] = '\0';
 		command** ncmds = (command**)malloc((sizeof(command*)) * (ptr->num_commands + 1));
 		memcpy(ncmds, ptr->commands, (sizeof(command*)) * ptr->num_commands);
 		ncmds[ptr->num_commands++] = new_command(cmd);
-		
+
 		if (ptr->commands) {
 			free(ptr->commands);
 		}
-		
+
 		ptr->commands = ncmds;
 		free(cmd);
 		scanner = end_of_cmd + 1;
@@ -199,7 +198,7 @@ void execute_command(command* cmd) {
             }
 			break;
 		}
-		
+
 		/*
 		* SHOWSECTOR
 		*/
@@ -217,7 +216,7 @@ void execute_command(command* cmd) {
             }
 			break;
 		}
-		
+
 		/*
 		* TRAVERSE
 		*/
@@ -240,7 +239,7 @@ void execute_command(command* cmd) {
             }
 			break;
 		}
-		
+
 		/*
 		* SHOWFAT
 		*/
@@ -257,7 +256,7 @@ void execute_command(command* cmd) {
             }
 			break;
 		}
-		
+
 		/*
 		* SHOWFILE
 		*/
@@ -273,13 +272,14 @@ void execute_command(command* cmd) {
                 printf("Usage: showfile <file>\n");
             }
 			break;
-		}
-		
+    	}
+
 		/*
 		* DEFAULT: Execute command
 		*/
 		default: {
 			execvp(cmd->name, cmd->argv);
+            printf("%s: command not found\n", cmd->name);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -298,14 +298,14 @@ void execute_process(process* proc) {
 
 	//Create two pipes (inode)
 	pipe(inode);
-	
+
 	//Execute each command
 	for (int i = 0; i < proc->num_commands; i++){
 		int nnode[2];
 		pipe(nnode);
 		command* cmd = proc->commands[i];
 		int pid = fork();
-		
+
 		if ( pid == 0 ) {
 			/* Child process */
 			if(i==0&&cmd->input_file){
@@ -319,11 +319,11 @@ void execute_process(process* proc) {
 				dup2(fnum,STDIN_FILENO);
 				close(fnum);
 			} else {
-				dup2(inode[0],STDIN_FILENO);	
+				dup2(inode[0],STDIN_FILENO);
 			}
-			
+
 			close(nnode[0]);
-			
+
 			if((i + 1) == proc->num_commands){
 				//Last process gets STDOUT again
 				if(cmd->output_file) {
@@ -336,10 +336,10 @@ void execute_process(process* proc) {
 					close(fnum);
 				} else {
 					dup2(original_stdout,STDOUT_FILENO);
-					close(original_stdout);	
+					close(original_stdout);
 				}
 			} else {
-				dup2(nnode[1],STDOUT_FILENO);	
+				dup2(nnode[1],STDOUT_FILENO);
 				close(nnode[1]);
 			}
 			execute_command(cmd);

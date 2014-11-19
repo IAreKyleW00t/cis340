@@ -150,7 +150,7 @@ void structure(int l) {
         for(int i = 0; i < boot.NUM_OF_FATS; i++)
                 printf("          %02d -- %02d                FAT%d\n", (boot.SECTORS_PER_FAT * i) + 1, boot.SECTORS_PER_FAT * (i + 1), i);
 
-        printf("          %02d -- %02d                ROOT DIRECTORY\n", boot.SECTORS_PER_FAT * boot.NUM_OF_FATS, (boot.MAX_ROOT_DIRS / 16) + (boot.SECTORS_PER_FAT * boot.NUM_OF_FATS)); 
+        printf("          %02d -- %02d                ROOT DIRECTORY\n", boot.SECTORS_PER_FAT * boot.NUM_OF_FATS, (boot.MAX_ROOT_DIRS / 16) + (boot.SECTORS_PER_FAT * boot.NUM_OF_FATS));
     }
 }
 
@@ -205,6 +205,7 @@ void traverse(int l) {
                     printf("/%.8s/..                    < DIR >\n", entry[i].FILENAME);
                 } else {
                     printf("/%.8s.%.3s\n", entry[i].FILENAME, entry[i].EXT);
+                    p
                 }
             }
         }
