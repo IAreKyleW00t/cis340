@@ -2,7 +2,7 @@
 *   Name:       Brianne O'Neil, Kyle Colantonio, David Loucks
 *   Group:      C
 *   Date:       17-NOV-2014
-*   Project 2:  A Floppy Disk Shell Program
+*   Project 3:  A Floppy Disk Shell Program
 *   Goal:       Create a program that allows users to access a floppy disk locally mounted on a computer
 *				and also execute any Linux command through a miniature shell.
 *
