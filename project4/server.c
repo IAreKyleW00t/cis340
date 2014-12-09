@@ -2,7 +2,7 @@
 *   Name:       Kyle Colantonio, Rutledge Brandon, Robert Hosta
 *   Group:      I
 *   Date:       8-DEC-2014
-*   Project 2:  A Remote Floppy Disk Shell
+*   Project 4:  A Remote Floppy Disk Shell
 *   Goal:       Create a program that allows users to access a floppy disk remotely mounted on a computer through a socket. (Server)
 *
 *   UPDATED:    8-DEC-2014
