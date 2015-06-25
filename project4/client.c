@@ -65,8 +65,8 @@ void clearScreen() {
 }
 
 /*
-*   Prints help information.
-*/
+ * Prints help information.
+ */
 void printHelp() {
     printf("======== FLOP HELP =========\n");
     printf("  <required> - [optional]\n\n");
