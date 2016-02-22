@@ -1,5 +1,5 @@
-CIS 340/540 - Senior Project
-------------------------
+CIS 340/540 - Systems Programming
+---------------------------------
 ###### Professor: Dr. Haodong Wang; Fall 2014
 
 This is a repository for all projects and assingments done in CIS 340/540.
